@@ -1,0 +1,76 @@
+{
+  "name": "wdio-rp-reporter",
+  "version": "1.0.0",
+  "description": "A WebdriverIO plugin. Report results to Report Portal.",
+  "main": "build/reporter.js",
+  "scripts": {
+    "build": "run-s clean compile",
+    "clean": "rimraf ./build ./coverage",
+    "compile": "node ./node_modules/typescript/lib/tsc.js",
+    "lint": "tslint -c tslint.json 'lib/**/*.{ts,tsx}'",
+    "test": "run-s lint test:unit",
+    "test:integration": "mocha",
+    "test:unit": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/borisosipov/wdio-reportportal-reporter.git"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "keywords": [
+    "reporter",
+    "webdriverio",
+    "wdio",
+    "wdio-plugin",
+    "wdio-reporter",
+    "reportportal"
+  ],
+  "author": "Boris Osipov <osipov.boris@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/borisosipov/wdio-reportportal-reporter/issues"
+  },
+  "homepage": "https://github.com/borisosipov/wdio-reportportal-reporter#readme",
+  "dependencies": {
+    "json-stringify-safe": "~5.0.1",
+    "@wdio/reporter": "^5.4.15",
+    "reportportal-client": "https://github.com/reportportal/client-javascript.git#b09e49b"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.0",
+    "@types/chai": "^4.1.7",
+    "@types/node": "^11.9.4",
+    "@types/mocha": "5.2.6",
+    "jest": "^24.1.0",
+    "ts-jest": "^23.10.5",
+    "chai": "^4.1.2",
+    "npm-run-all": "~4.1.5",
+    "rimraf": "^2.6.3",
+    "@wdio/local-runner": "^5.4.17",
+    "@wdio/mocha-framework": "^5.4.14",
+    "@wdio/spec-reporter": "^5.4.15",
+    "@wdio/sync": "^5.4.14",
+    "@wdio/cli": "^5.4.17",
+    "webdriverio": "^5.3.5",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.3.3"
+  },
+  "contributors": [
+    "Boris Osipov <osipov.boris@gmail.com>"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "/__tests__/.*\\.spec.(ts)$"
+  }
+}
