@@ -8,7 +8,7 @@
     "noImplicitReturns": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "types": ["node", "webdriverio", "mocha"]
+    "types": ["node", "webdriverio", "mocha", "jest"]
   },
   "include": ["lib/"],
   "exclude": [

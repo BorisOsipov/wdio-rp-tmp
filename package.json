@@ -1,6 +1,6 @@
 {
   "name": "wdio-rp-reporter",
-  "version": "1.0.0",
+  "version": "5.0.0-alpha",
   "description": "A WebdriverIO plugin. Report results to Report Portal.",
   "main": "build/reporter.js",
   "scripts": {
@@ -36,7 +36,8 @@
   "dependencies": {
     "json-stringify-safe": "~5.0.1",
     "@wdio/reporter": "^5.4.15",
-    "reportportal-client": "https://github.com/reportportal/client-javascript.git#b09e49b"
+    "reportportal-client": "https://github.com/reportportal/client-javascript.git#b09e49b",
+    "wdio-reportportal-service": "https://github.com/BorisOsipov/wdio-reportportal-service.git#db755019105"
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",
