@@ -25,7 +25,7 @@ const reportportal = require('wdio-reportportal-reporter');
 const RpService = require("wdio-reportportal-service");
 
 const conf = {
-  rpConfig: {
+  reportPortalClientConfig: {
     token: '00000000-0000-0000-0000-00000000000',
     endpoint: 'https://reportportal-url/api/v1',
     launch: 'launch_name',
