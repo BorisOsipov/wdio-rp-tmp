@@ -31,11 +31,10 @@ const conf = {
     description: "Launch description text",
     tags: ["tags", "for", "launch"],
   },
-  enableSeleniumCommandReporting: false,
-  enableScreenshotsReporting: false,
+  reportSeleniumCommands: false,
+  autoAttachScreenshots: false,
   seleniumCommandsLogLevel: 'debug',
   screenshotsLogLevel: 'info',
-  enableRetriesWorkaround: false,
   parseTagsFromTestTitle: false,
 }
 

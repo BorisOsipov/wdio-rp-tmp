@@ -3,6 +3,7 @@ import {parseTags} from "./utils";
 
 export class StartTestItem {
   public name = "";
+  public description;
   public parameters?: any[];
   public tags?: any[];
   public type: TYPE;

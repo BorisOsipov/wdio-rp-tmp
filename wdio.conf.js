@@ -1,5 +1,6 @@
 const reporter = require('./build/reporter');
 const RpService = require('wdio-reportportal-service');
+const fs = require('fs');
 
 const conf = {
   reportPortalClientConfig: {
@@ -10,29 +11,34 @@ const conf = {
     mode: 'DEBUG',
     debug: false,
   },
-  enableSeleniumCommandReporting: false,
+  reportSeleniumCommands: true,
   seleniumCommandsLogLevel: 'trace',
-  enableScreenshotsReporting: false,
+  autoAttachScreenshots: true,
   screenshotsLogLevel: 'info',
-  enableRetriesWorkaround: true,
-  parseTagsFromTestTitle: false,
+  parseTagsFromTestTitle: true,
 };
 
 exports.config = {
+  outputDir: __dirname,
   specs: [
     './specs/**/*.js'
   ],
-  maxInstances: 2,
+  maxInstances: 4,
   capabilities: [
     {
-      maxInstances: 2,
+      maxInstances: 4,
       browserName: 'chrome',
       'goog:chromeOptions': {
       }
     },
 
   ],
-  logLevel: 'error',
+  logLevel: 'trace',
+  logLevels: {
+    webdriver: 'error',
+    webdriverio: 'error',
+  },
+
   deprecationWarnings: true,
   bail: 0,
   baseUrl: 'http://localhost',
@@ -43,4 +49,10 @@ exports.config = {
   framework: 'mocha',
   reporters: ['spec', [reporter, conf]
   ],
+  afterTest: async function (test) {
+    //logging Pass or Fail for test
+    (test.passed) ? reporter.sendLogToTest(test, 'debug', `******* TEST '${test.title}' PASSED ******* `)
+      : reporter.sendLogToTest(test, 'debug', `******* TEST '${test.title}' FAILED ******* `);
+    reporter.sendFileToTest(test, 'info', 'failed.png', fs.readFileSync('./tslint.json'));
+  },
 };
