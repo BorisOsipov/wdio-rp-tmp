@@ -4,10 +4,10 @@ const fs = require('fs');
 
 const conf = {
   reportPortalClientConfig: {
-    token: '00000000-0000-0000-0000-00000000000',
-    endpoint: 'https://reportportal-url/api/v1',
+    endpoint: "https://rp.epam.com/api/v1",
+    project: "boris_osipov_personal",
+    token: "da135aa3-1c6f-4d7f-a25e-d74ccbc64af9",
     launch: 'launch_name',
-    project: 'project_name',
     mode: 'DEBUG',
     debug: false,
   },

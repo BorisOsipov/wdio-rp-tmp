@@ -20,8 +20,6 @@ class ReportPortalReporter extends Reporter {
     this.rpPromisesCompleted = value;
   }
 
-  public static reporterName = "reportportal";
-
   public static sendLog(level: LEVEL, message: any) {
     sendToReporter(EVENTS.RP_LOG, {level, message});
   }
@@ -38,11 +36,12 @@ class ReportPortalReporter extends Reporter {
     sendToReporter(EVENTS.RP_TEST_FILE, {test, level, name, content, type});
   }
 
+  private static reporterName = "reportportal";
   private launchId: string;
   private client: ReportPortalClient;
   private storage = new Storage();
   private tempLaunchId: string;
-  private options: ReporterOptions;
+  private readonly options: ReporterOptions;
   private isMultiremote: boolean;
   private sanitizedCapabilities: string;
   private rpPromisesCompleted = false;
