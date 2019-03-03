@@ -1,33 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-ignore
+const logger_1 = require("@wdio/logger");
+const validator_1 = require("validator");
 const stringify = require("json-stringify-safe");
 const OBJLENGTH = 10;
 const ARRLENGTH = 10;
 const STRINGLIMIT = 1000;
 const STRINGTRUNCATE = 200;
-const notBase64 = /[^A-Z0-9+/=]/i;
 const TAGS_PATTERN = /\B@[a-z0-9_-]+/gi;
+const log = logger_1.default("wdio-reportportal-reporter");
 exports.promiseErrorHandler = (promise) => {
     promise.catch((err) => {
-        // TOD use wdio logger
-        // tslint:disable-next-line:no-console
-        console.log(err);
+        log.error(err);
     });
 };
 exports.isEmpty = (object) => !object || Object.keys(object).length === 0;
-const isBase64 = (str) => {
-    if (typeof str !== "string") {
-        return false;
-    }
-    const len = str.length;
-    if (!len || len % 4 !== 0 || notBase64.test(str)) {
-        return false;
-    }
-    const firstPaddingChar = str.indexOf("=");
-    return firstPaddingChar === -1 ||
-        firstPaddingChar === len - 1 ||
-        (firstPaddingChar === len - 2 && str[len - 1] === "=");
-};
 /**
  * Limit the length of an arbitrary variable of any type, suitable for being logged or displayed
  * @param  {Any} val Any variable
@@ -41,7 +29,7 @@ exports.limit = (val) => {
     let value = JSON.parse(stringify(val));
     switch (Object.prototype.toString.call(value)) {
         case "[object String]":
-            if (value.length > 100 && isBase64(value)) {
+            if (value.length > 100 && validator_1.default.isBase64(value)) {
                 return `[base64] ${value.length} bytes`;
             }
             if (value.length > STRINGLIMIT) {
@@ -78,46 +66,27 @@ exports.limit = (val) => {
         }
     }
 };
-exports.addTagsToSuite = (tags, suiteStartObj) => {
-    if (tags && tags.length > 0) {
-        if (tags[0].name) {
-            suiteStartObj.tags = tags.map((tag) => tag.name);
-        }
-        else {
-            suiteStartObj.tags = tags;
-        }
-    }
-};
-exports.addBrowserParam = (browser, testStartObj) => {
+exports.addBrowserParam = (browser, testItem) => {
     if (browser) {
         const param = { key: "browser", value: browser };
-        testStartObj.parameters = [param];
+        if (Array.isArray(testItem.parameters)) {
+            testItem.parameters.push(param);
+            return;
+        }
+        testItem.parameters = [param];
     }
 };
-exports.addDescription = (description, suiteStartObj) => {
+exports.addDescription = (description, testItem) => {
     if (description) {
-        suiteStartObj.description = description;
+        testItem.description = description;
     }
-};
-exports.getBrowserDescription = (capabilities, cid) => {
-    if (capabilities && !exports.isEmpty(capabilities)) {
-        const targetName = capitalizeFirstLetter(capabilities.browserName || capabilities.deviceName || cid);
-        const version = capabilities.version || capabilities.platformVersion;
-        const browser = version ? `${targetName} v.${version}` : `${targetName}`;
-        const browserWithPlatform = capabilities.platform ?
-            `${browser} on ${capitalizeFirstLetter(capabilities.platform)}`
-            : browser;
-        return browserWithPlatform;
-    }
-    return "";
-};
-const capitalizeFirstLetter = (val) => {
-    if (val) {
-        return val.charAt(0).toUpperCase() + val.toLowerCase().slice(1);
-    }
-    return val;
 };
 exports.parseTags = (text) => ("" + text).match(TAGS_PATTERN) || [];
+exports.isScreenshotCommand = (command) => {
+    const isScrenshotEndpoint = /\/session\/[^/]*\/screenshot/;
+    return isScrenshotEndpoint.test(command.endpoint);
+};
 exports.sendToReporter = (event, msg = {}) => {
-    process.send(Object.assign({ event }, msg));
+    // @ts-ignore
+    process.emit(event, msg);
 };

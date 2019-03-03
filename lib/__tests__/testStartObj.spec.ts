@@ -7,7 +7,7 @@ function getStringWithLength(length: number) {
 
 describe("StartTestItem", () => {
   test("should store name and default parameters", () => {
-    const testStartObj = new StartTestItem("foo");
+    const testStartObj = new StartTestItem("foo", TYPE.STEP);
 
     expect(testStartObj.name).toEqual("foo");
     expect(testStartObj.type).toEqual(TYPE.STEP);
@@ -16,9 +16,9 @@ describe("StartTestItem", () => {
   });
 
   test("should trim long names", () => {
-    expect(new StartTestItem(getStringWithLength(257)).name.length).toEqual(256);
-    expect(new StartTestItem(getStringWithLength(256)).name.length).toEqual(256);
-    expect(new StartTestItem(getStringWithLength(255)).name.length).toEqual(255);
+    expect(new StartTestItem(getStringWithLength(257), TYPE.STEP).name.length).toEqual(256);
+    expect(new StartTestItem(getStringWithLength(256), TYPE.STEP).name.length).toEqual(256);
+    expect(new StartTestItem(getStringWithLength(255), TYPE.STEP).name.length).toEqual(255);
   });
 
 });

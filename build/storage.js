@@ -10,25 +10,25 @@ class Storage {
         const currentSuite = this.suites[this.suites.length - 1];
         return currentSuite ? currentSuite : null;
     }
+    getCurrentTest() {
+        const activeTests = Array.from(this.testItems.values());
+        if (activeTests.length === 0) {
+            return null;
+        }
+        return activeTests[activeTests.length - 1];
+    }
     addSuite(value) {
         this.suites.push(value);
     }
     removeSuite() {
         this.suites.pop();
     }
-    getTest(uid) {
-        const suite = this.testItems[uid];
-        if (!suite) {
-            return null;
-        }
-        return suite;
-    }
     addTest(uid, value) {
-        this.testItems[uid] = value;
+        this.testItems.set(uid, value);
         this.allTestItems.push(value);
     }
-    removeTest(uid) {
-        delete this.testItems[uid];
+    removeTest(item) {
+        return this.testItems.delete(item.wdioEntity.uid);
     }
     getStartedTests() {
         const tests = this.allTestItems || [];
