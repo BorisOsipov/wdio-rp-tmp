@@ -1,0 +1,38 @@
+import Reporter from "@wdio/reporter";
+import { LEVEL } from "./constants";
+export default class ReportPortalReporter extends Reporter {
+    private isSynchronised;
+    static reporterName: string;
+    static sendLog(level: LEVEL, message: any): void;
+    static sendFile(level: LEVEL, name: string, content: any, type?: string): void;
+    static sendLogToTest(test: any, level: LEVEL, message: any): void;
+    static sendFileToTest(test: any, level: LEVEL, name: string, content: any, type?: string): void;
+    private launchId;
+    private client;
+    private storage;
+    private tempLaunchId;
+    private options;
+    private isMultiremote;
+    private sanitizedCapabilities;
+    private rpPromisesCompleted;
+    constructor(options: any);
+    private onSuiteStart;
+    private onSuiteEnd;
+    private onTestStart;
+    private onTestPass;
+    private onTestFail;
+    private onTestSkip;
+    private testFinished;
+    private onRunnerStart;
+    private onRunnerEnd;
+    private onBeforeCommand;
+    private onAfterCommand;
+    private onHookStart;
+    private onHookEnd;
+    private sendLog;
+    private sendFile;
+    private sendLogToTest;
+    private sendFileToTest;
+    private registerListeners;
+    private now;
+}

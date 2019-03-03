@@ -12,11 +12,11 @@ const log = logger("wdio-reportportal-reporter");
 
 export default class ReportPortalReporter extends Reporter {
 
-  get isSynchronised(): boolean {
+  private get isSynchronised(): boolean {
     return this.rpPromisesCompleted;
   }
 
-  set isSynchronised(value: boolean) {
+  private set isSynchronised(value: boolean) {
     this.rpPromisesCompleted = value;
   }
 
@@ -38,11 +38,11 @@ export default class ReportPortalReporter extends Reporter {
     sendToReporter(EVENTS.RP_TEST_FILE, {test, level, name, content, type});
   }
 
-  public launchId: string;
-  public client: ReportPortalClient;
-  public storage = new Storage();
-  public tempLaunchId: string;
-  public options: ReporterOptions;
+  private launchId: string;
+  private client: ReportPortalClient;
+  private storage = new Storage();
+  private tempLaunchId: string;
+  private options: ReporterOptions;
   private isMultiremote: boolean;
   private sanitizedCapabilities: string;
   private rpPromisesCompleted = false;
@@ -53,7 +53,7 @@ export default class ReportPortalReporter extends Reporter {
     this.registerListeners();
   }
 
-  public onSuiteStart(suite: any) {
+  private onSuiteStart(suite: any) {
     log.trace(`Start suite ${suite.title} ${suite.uid}`);
     const suiteStartObj = new StartTestItem(suite.title, TYPE.SUITE);
     const suiteItem = this.storage.getCurrentSuite();
@@ -71,7 +71,7 @@ export default class ReportPortalReporter extends Reporter {
     this.storage.addSuite(new StorageEntity(suiteStartObj.type, tempId, promise, suite));
   }
 
-  public onSuiteEnd(suite: any) {
+  private onSuiteEnd(suite: any) {
     log.trace(`End suite ${suite.title} ${suite.uid}`);
     const suiteItem = this.storage.getCurrentSuite();
     const finishSuiteObj = {status: STATUS.PASSED};
@@ -80,7 +80,7 @@ export default class ReportPortalReporter extends Reporter {
     this.storage.removeSuite();
   }
 
-  public onTestStart(test: any, type = TYPE.STEP) {
+  private onTestStart(test: any, type = TYPE.STEP) {
     log.trace(`Start test ${test.title} ${test.uid}`);
     if (this.storage.getCurrentTest()) {
       return;
@@ -103,12 +103,12 @@ export default class ReportPortalReporter extends Reporter {
     return promise;
   }
 
-  public onTestPass(test: any) {
+  private onTestPass(test: any) {
     log.trace(`Pass test ${test.title} ${test.uid}`);
     this.testFinished(test, STATUS.PASSED);
   }
 
-  public onTestFail(test: any) {
+  private onTestFail(test: any) {
     log.trace(`Fail test ${test.title} ${test.uid} ${test.error.stack}`);
     const testItem = this.storage.getCurrentTest();
     if (testItem === null) {
@@ -117,7 +117,7 @@ export default class ReportPortalReporter extends Reporter {
     this.testFinished(test, STATUS.FAILED);
   }
 
-  public onTestSkip(test: any) {
+  private onTestSkip(test: any) {
     log.trace(`Skip test ${test.title} ${test.uid}`);
     const testItem = this.storage.getCurrentTest();
     if (testItem === null) {
@@ -126,7 +126,7 @@ export default class ReportPortalReporter extends Reporter {
     this.testFinished(test, STATUS.SKIPPED, new Issue("NOT_ISSUE"));
   }
 
-  public testFinished(test: any, status: STATUS, issue ?: Issue) {
+  private testFinished(test: any, status: STATUS, issue ?: Issue) {
     log.trace(`Finish test ${test.title} ${test.uid}`);
     const testItem = this.storage.getCurrentTest();
     if (testItem === null) {
@@ -149,7 +149,7 @@ export default class ReportPortalReporter extends Reporter {
     this.storage.removeTest(testItem);
   }
 
-  public onRunnerStart(runner: any, client: ReportPortalClient) {
+  private onRunnerStart(runner: any, client: ReportPortalClient) {
     log.trace(`Runner start`);
     this.isMultiremote = runner.isMultiremote;
     this.sanitizedCapabilities = runner.sanitizedCapabilities;
@@ -165,7 +165,7 @@ export default class ReportPortalReporter extends Reporter {
     this.tempLaunchId = tempId;
   }
 
-  public async onRunnerEnd() {
+  private async onRunnerEnd() {
     log.trace(`Runner end`);
     try {
       const finishPromise = await this.client.getPromiseFinishAllItems(this.tempLaunchId);
@@ -179,7 +179,7 @@ export default class ReportPortalReporter extends Reporter {
     }
   }
 
-  public onBeforeCommand(command: any) {
+  private onBeforeCommand(command: any) {
     if (!this.options.reportSeleniumCommands || this.isMultiremote) {
       return;
     }
@@ -193,7 +193,7 @@ export default class ReportPortalReporter extends Reporter {
     }
   }
 
-  public onAfterCommand(command: any) {
+  private onAfterCommand(command: any) {
     if (this.isMultiremote) {
       return;
     }
@@ -219,11 +219,11 @@ export default class ReportPortalReporter extends Reporter {
     }
   }
 
-  public onHookStart(hook: any) {
+  private onHookStart(hook: any) {
     log.trace(`Start hook ${hook.title} ${hook.uid}`);
   }
 
-  public onHookEnd(hook: any) {
+  private onHookEnd(hook: any) {
     log.trace(`End hook ${hook.title} ${hook.uid} ${JSON.stringify(hook)}`);
     if (hook.error) {
       const testItem = this.storage.getCurrentTest();
@@ -234,7 +234,7 @@ export default class ReportPortalReporter extends Reporter {
     }
   }
 
-  public sendLog(event: any) {
+  private sendLog(event: any) {
     const testItem = this.storage.getCurrentTest();
     if (testItem === null) {
       log.warn("Cannot send log message. There is no running tests");
@@ -248,7 +248,7 @@ export default class ReportPortalReporter extends Reporter {
     promiseErrorHandler(promise);
   }
 
-  public sendFile({level, name, content, type = "image/png"}) {
+  private sendFile({level, name, content, type = "image/png"}) {
     const testItem = this.storage.getCurrentTest();
     if (!testItem) {
       log.warn(`Can not send file to test. There is no running tests`);
@@ -259,7 +259,7 @@ export default class ReportPortalReporter extends Reporter {
     promiseErrorHandler(promise);
   }
 
-  public async sendLogToTest({test, level, message}) {
+  private async sendLogToTest({test, level, message}) {
     const testObj = this.storage.getStartedTests().reverse().find((startedTest) => {
       return startedTest.wdioEntity.title === test.title;
     });
@@ -282,7 +282,7 @@ export default class ReportPortalReporter extends Reporter {
     promiseErrorHandler(promise);
   }
 
-  public async sendFileToTest({test, level, name, content, type = "image/png"}) {
+  private async sendFileToTest({test, level, name, content, type = "image/png"}) {
     const testObj = this.storage.getStartedTests().reverse().find((startedTest) => {
       return startedTest.wdioEntity.title === test.title;
     });

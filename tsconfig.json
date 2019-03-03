@@ -5,6 +5,7 @@
     "outDir": "./build",
     "inlineSourceMap": false,
     "inlineSources": false,
+    "declaration": true,
     "noImplicitReturns": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
