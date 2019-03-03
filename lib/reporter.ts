@@ -10,7 +10,7 @@ import {addBrowserParam, isEmpty, isScreenshotCommand, limit, promiseErrorHandle
 
 const log = logger("wdio-reportportal-reporter");
 
-export default class ReportPortalReporter extends Reporter {
+class ReportPortalReporter extends Reporter {
 
   private get isSynchronised(): boolean {
     return this.rpPromisesCompleted;
@@ -320,5 +320,4 @@ export default class ReportPortalReporter extends Reporter {
   }
 }
 
-declare var module: any;
-(module).exports = ReportPortalReporter;
+export = ReportPortalReporter;

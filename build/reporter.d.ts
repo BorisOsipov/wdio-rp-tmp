@@ -1,6 +1,6 @@
 import Reporter from "@wdio/reporter";
 import { LEVEL } from "./constants";
-export default class ReportPortalReporter extends Reporter {
+declare class ReportPortalReporter extends Reporter {
     private isSynchronised;
     static reporterName: string;
     static sendLog(level: LEVEL, message: any): void;
@@ -36,3 +36,4 @@ export default class ReportPortalReporter extends Reporter {
     private registerListeners;
     private now;
 }
+export = ReportPortalReporter;

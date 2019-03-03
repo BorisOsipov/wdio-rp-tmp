@@ -7,7 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = require("@wdio/logger");
 const reporter_1 = require("@wdio/reporter");
 const crypto_1 = require("crypto");
@@ -281,5 +280,4 @@ class ReportPortalReporter extends reporter_1.default {
     }
 }
 ReportPortalReporter.reporterName = "reportportal";
-exports.default = ReportPortalReporter;
-(module).exports = ReportPortalReporter;
+module.exports = ReportPortalReporter;
