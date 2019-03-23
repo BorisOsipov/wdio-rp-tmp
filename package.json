@@ -35,8 +35,8 @@
   "dependencies": {
     "json-stringify-safe": "~5.0.1",
     "validator": "^10.11.0",
-    "@wdio/reporter": "^5.6.4",
-    "reportportal-client": "https://github.com/reportportal/client-javascript.git#b09e49b",
+    "@wdio/reporter": "^5.7.2",
+    "reportportal-client": "https://github.com/reportportal/client-javascript.git#4bf6511bc45e89762e4d2d7d4e8f3a780bcff541",
     "wdio-reportportal-service": "https://github.com/BorisOsipov/wdio-reportportal-service.git#master"
   },
   "devDependencies": {
